@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  Albert:
+  # podria ficar: "build: \n\t context: users/Albert
+    build: ./users/Albert
+  Dakota:
+    build: ./users/Dakota
+  #falten dos persones
+
+  #imatges aleatories de moment
+  kafka:
+    image: wurstmeister/kafka
+
+  mqtt:
+    image: toke/mosquito
+    ports:
+      - "1883:1883"
