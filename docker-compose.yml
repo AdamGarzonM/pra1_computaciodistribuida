@@ -3,8 +3,10 @@ services:
   albert:
   # podria ficar: "build: \n\t context: users/Albert
     build: ./users/albert
-  # Dakota:
-  #   build: ./users/adakota
+    depends_on:
+      - mqtt
+      - kafka
+
   #falten dos persones
 
   #imatges aleatories de moment
