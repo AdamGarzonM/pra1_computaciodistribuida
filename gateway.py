@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 # This is the Subscriber
-# #hostname
+# #hostnamesdfsdf
 broker = "localhost"
 #port
 port = 1883
