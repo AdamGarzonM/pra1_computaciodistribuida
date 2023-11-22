@@ -21,6 +21,7 @@ for i in range(20):
     
     #telemetry to send 
     message = "Device 1 : Data " + str(i)
+    print(message)
     time.sleep(d)
     #publish message
     ret = client.publish("/data",message)

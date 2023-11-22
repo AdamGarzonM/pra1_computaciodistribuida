@@ -1,3 +1,2 @@
 kafka
 paho-mqtt
-psycopg2
