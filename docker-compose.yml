@@ -1,11 +1,27 @@
 version: '3.8'
 services:
-  albert:
+  # albert:
+  albert_presence:
   # podria ficar: "build: \n\t context: users/Albert
-    build: ./users/albert
+    build: ./sensors/presence
+    command: python3 -u presencesensor.py
+    #maybe no fa falta depends on
     depends_on:
-      - mqtt
+      - albert_mqtt
       - kafka
+  albert_temp:
+    build: ./sensors/temperature
+    command: python3 -u temperaturesensor.py
+    depends_on:
+      - albert_mqtt
+      - kafka
+  # albert_light:
+  # albert_heat:
+  # albert_gateway:
+  albert_mqtt:
+    image: eclipse-mosquitto:latest
+    volumes:
+    - ./config:/mosquitto/config/
 
   #falten dos persones
 
@@ -13,7 +29,10 @@ services:
   kafka:
     image: wurstmeister/kafka
 
-  mqtt:
-    image: eclipse-mosquitto:latest
-    ports:
-      - "1883:1883"
+  # mqtt:
+  #   image: eclipse-mosquitto:latest
+  #   volumes:
+  #     - ./config:/mosquitto/config/
+
+volumes:
+  config:

@@ -4,25 +4,26 @@ import time
 import random
 
 #hostname
-broker="localhost"
+broker="albert_mqtt"
 #port
 port=1883
 
 def on_publish(client,userdata,result):
-    print("Device 1 : Data published.")
+    print("Device 2 : Data published.")
     pass
 
+print("ADASDASDASDASDASDD")
 client = paho.Client("admin")
 client.on_publish = on_publish
+print(client)
 client.connect(broker,port)
 
 for i in range(20):
-    d = random.randint(1,5)
-    
+    message = random.randint(-20,70)
+    print("ADASDASDASDASDASDASDASDASDASDAS")
     #telemetry to send 
-    message = "Device 1 : Data " + str(i)
-    print(message)
-    time.sleep(d)
-    #publish message
+    #message = "Device 1 : Data " + d
+    time.sleep(3)
     ret = client.publish("/data",message)
+    #print(ret)
     
