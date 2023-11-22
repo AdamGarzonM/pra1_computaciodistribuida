@@ -1,10 +1,10 @@
 version: '3.8'
 services:
-  Albert:
+  albert:
   # podria ficar: "build: \n\t context: users/Albert
-    build: ./users/Albert
-  Dakota:
-    build: ./users/Dakota
+    build: ./users/albert
+  # Dakota:
+  #   build: ./users/adakota
   #falten dos persones
 
   #imatges aleatories de moment
@@ -12,6 +12,6 @@ services:
     image: wurstmeister/kafka
 
   mqtt:
-    image: toke/mosquito
+    image: eclipse-mosquitto:latest
     ports:
       - "1883:1883"
