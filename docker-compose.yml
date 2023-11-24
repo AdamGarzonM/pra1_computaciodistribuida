@@ -1,6 +1,7 @@
 version: '3.8'
 services:
-  # albert:
+  ################################## USUARIS ##################################
+  ################################## ALBERT  ##################################
   albert_presence:
   # podria ficar: "build: \n\t context: users/Albert
     build: ./sensors/presence
@@ -9,12 +10,16 @@ services:
     depends_on:
       - albert_mqtt
       - kafka
+    restart: on-failure:10
+
   albert_temp:
     build: ./sensors/temperature
     command: python3 -u temperaturesensor.py
     depends_on:
       - albert_mqtt
       - kafka
+    restart: on-failure:10
+
   # albert_light:
   # albert_heat:
   # albert_gateway:
@@ -24,6 +29,7 @@ services:
     - ./config:/mosquitto/config/
     ports: 
     - 1883:1883
+    restart: on-failure:10
 
   albert_gateway:
     build: ./gateway
@@ -31,10 +37,21 @@ services:
     depends_on:
       - albert_mqtt
       - kafka
+    environment:
+      - BROKER=albert_mqtt
+    restart: on-failure:20 #els altres estan per gust, aquest hauria de estar aqui (o fer try catch de NoBrokersAvailable)
 
   #falten dos persones
+  ##################################  MICROSERVEIS  ##################################
 
-  #imatges aleatories de moment
+  cloud_save:
+    build: ./cloud/save
+    command: python3 -u save.py
+    depends_on:
+      - kafka
+      - albert_gateway
+    restart: on-failure:10
+  ################################## COSES DE KAFKA ##################################
   zookeeper:
     image: bitnami/zookeeper:latest
     ports:
@@ -43,6 +60,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ALLOW_ANONYMOUS_LOGIN: yes 
       ADMIN_ENABLE_SERVER: no
+      ZOO_LOG_LEVEL: WARN #perque calli una mica si volem tot INFO
 
 
   kafka:

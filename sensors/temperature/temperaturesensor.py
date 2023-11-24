@@ -5,14 +5,14 @@ import random
 
 #hostname
 broker="albert_mqtt"
-topic = "Gateway/{broker}/temperature"
+topic = f"Gateway/{broker}/temperature"
 
 while True:
     message = random.randint(15,30)
     payload = str(message) + "/" + str(time.time()) + "/temperature"
 
     publish.single(topic = topic, payload = payload, hostname = "host.docker.internal")
-    #hostname podem fer hostname: cosa
+    print(f"Sent payload: {payload} // Topic: {topic}")
     
-    time.sleep(5)
+    time.sleep(2)
     

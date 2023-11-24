@@ -1,3 +1,5 @@
+from kafka import KafkaConsumer
+
 consumer_conf = {
     'bootstrap.servers': 'kafka:9092',
     'group.id': 'actuation_service',
