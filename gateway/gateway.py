@@ -10,15 +10,14 @@ kafka_producer = KafkaProducer(
     api_version=(0,11,5), # no se si es necessari
 )
 
-
 def on_message(client, userdata, msg):
-    data = msg.payload.decode()
+    data = msg.payload.decode() + "/" + broker
     print(f"Gateway recieved payload: {data}")
     # data_parts = data.split('/')
     # data_kind = data_parts[2]
     #data = data_parts[0] + "/" + data_parts[1]
     #kafka_producer.send(data_kind, data)
-    kafka_producer.send("topic", data) #TODO: topic
+    kafka_producer.send("raw", data) #TODO: topic
 
 if __name__ == "__main__":
     broker = os.environ.get("BROKER")

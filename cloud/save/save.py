@@ -12,12 +12,23 @@ db_org = os.environ.get("DOCKER_INFLUXDB_INIT_ORG")
 db_bucket = os.environ.get("DOCKER_INFLUXDB_INIT_BUCKET")
 db_token = os.environ.get("DOCKER_INFLUXDB_INIT_ADMIN_TOKEN")
 db_hostname = os.environ.get("DOCKER_INFLUXDB_HOSTNAME")
+db_port = os.environ.get("DOCKER_INFLUXDB_PORT")
 
-kafka_topic = 'topic' 
+raw_topic = 'raw' 
+clean_topic = 'clean'
 while True:
     try:
-        save_consumer = KafkaConsumer(
-            kafka_topic,
+        raw_save_consumer = KafkaConsumer(
+            raw_topic,
+            bootstrap_servers = ['kafka : 9092'],
+            group_id = 'save_service',
+            auto_offset_reset = 'latest',
+            enable_auto_commit = True,
+            value_deserializer = lambda x: loads(x.decode('utf-8'))
+        )
+
+        clean_save_consumer = KafkaConsumer(
+            clean_topic,
             bootstrap_servers = ['kafka : 9092'],
             group_id = 'save_service',
             auto_offset_reset = 'latest',
@@ -27,11 +38,12 @@ while True:
 
         if __name__ == "__main__":
             print("SAVE")
-            influxToken = "s2d3rf67ren42i0gg666er9"
-            for message in save_consumer:
+            #for msg , message in zip(raw_save_consumer, clean_save_consumer):
+            for msg in raw_save_consumer:
                 #value='25/1700859867.9161658/temperature'
-                message = message.value.split("/")
-                print(f"SAVE recieved message: {message}")
+                #message = message.value.split("/")
+                print(f"SAVE_RAW recieved message: {msg}")
+                #print(f"SAVE_CLEAN recieved message: {message}")
     except: #NoBrokersAvailable
         sleep(1)
         pass

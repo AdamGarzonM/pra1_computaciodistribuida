@@ -49,8 +49,27 @@ services:
     command: python3 -u save.py
     depends_on:
       - kafka
-      - albert_gateway
-    restart: on-failure:10 
+      #- albert_gateway
+    restart: on-failure:10
+    environment: 
+      DOCKER_INFLUXDB_INIT_USERNAME: damie
+      DOCKER_INFLUXDB_INIT_PASSWORD: pollagorda69 # TODO: canviar si se te por a l'exit 
+      DOCKER_INFLUXDB_INIT_ORG: computacio
+      DOCKER_INFLUXDB_INIT_BUCKET: computaciobucket
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: s2d3rf67ren42i0gg666er9
+      DOCKER_INFLUXDB_HOSTNAME: influxdb
+      DOCKER_INFLUXDB_PORT: 8086
+
+
+  cloud_clean:
+    build: ./cloud/clean
+    command: python3 -u clean.py
+    depends_on:
+      - kafka
+      #- albert_gateway
+    restart: on-failure:10
+
+
   ################################## COSES DE KAFKA ##################################
   zookeeper:
     image: bitnami/zookeeper:latest
