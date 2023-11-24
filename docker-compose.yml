@@ -39,7 +39,7 @@ services:
       - kafka
     environment:
       - BROKER=albert_mqtt
-    restart: on-failure:20 #els altres estan per gust, aquest hauria de estar aqui (o fer try catch de NoBrokersAvailable)
+    restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
 
   #falten dos persones
   ##################################  MICROSERVEIS  ##################################
@@ -50,7 +50,7 @@ services:
     depends_on:
       - kafka
       - albert_gateway
-    restart: on-failure:10
+    restart: on-failure:10 
   ################################## COSES DE KAFKA ##################################
   zookeeper:
     image: bitnami/zookeeper:latest
@@ -79,6 +79,22 @@ services:
     depends_on:
       - zookeeper
     
+      ################################## INFLUXDB ##################################
+
+  influxdb:
+    image: influxdb:latest
+    ports:
+    - 8086:8086
+    environment: 
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: damie
+      DOCKER_INFLUXDB_INIT_PASSWORD: pollagorda69 # TODO: canviar si se te por a l'exit 
+      DOCKER_INFLUXDB_INIT_ORG: computacio
+      DOCKER_INFLUXDB_INIT_BUCKET: computaciobucket
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: s2d3rf67ren42i0gg666er9
+      DOCKER_INFLUXDB_HOSTNAME: influxdb
+      DOCKER_INFLUXDB_REPORTING_DISABLED: 'true' #potser no fan falta
+      DOCKER_INFLUXDB_BIND_ADDRESS: 0.0.0.0:8086 #potser no fan falta
 
 volumes:
   config:
