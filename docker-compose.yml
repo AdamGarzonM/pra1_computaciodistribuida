@@ -22,12 +22,46 @@ services:
     image: eclipse-mosquitto:latest
     volumes:
     - ./config:/mosquitto/config/
+    ports: 
+    - 1883:1883
+
+  albert_gateway:
+    build: ./gateway
+    command: python3 -u gateway.py
+    depends_on:
+      - albert_mqtt
+      - kafka
 
   #falten dos persones
 
   #imatges aleatories de moment
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    ports:
+      - 2181:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ALLOW_ANONYMOUS_LOGIN: yes 
+
+
   kafka:
-    image: wurstmeister/kafka
+    image: bitnami/kafka:latest
+    ports:
+      - 9092:9092
+      - 29092:29092
+
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT : zookeeper:2181
+      #KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      ALLOW_PLAINTEXT_LISTENER: yes
+      ALLOW_ANONYMOUS_LOGIN: yes
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      #TOPIC_AUTO_CREATE: False
+    depends_on:
+      - zookeeper
+    
 
   # mqtt:
   #   image: eclipse-mosquitto:latest
