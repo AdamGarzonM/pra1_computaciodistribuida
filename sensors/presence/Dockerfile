@@ -1,7 +1,4 @@
-FROM ubuntu:latest
-
-RUN apt-get update
-RUN apt-get install -y python3-pip
+FROM python:3.9-slim
 
 COPY . .
 

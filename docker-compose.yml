@@ -42,17 +42,16 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ALLOW_ANONYMOUS_LOGIN: yes 
+      ADMIN_ENABLE_SERVER: no
 
 
   kafka:
     image: bitnami/kafka:latest
     ports:
       - 9092:9092
-      - 29092:29092
 
     environment:
       KAFKA_CFG_ZOOKEEPER_CONNECT : zookeeper:2181
-      #KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       ALLOW_PLAINTEXT_LISTENER: yes
       ALLOW_ANONYMOUS_LOGIN: yes
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
@@ -62,11 +61,6 @@ services:
     depends_on:
       - zookeeper
     
-
-  # mqtt:
-  #   image: eclipse-mosquitto:latest
-  #   volumes:
-  #     - ./config:/mosquitto/config/
 
 volumes:
   config:
