@@ -1,10 +1,9 @@
 #simulator device 1 for mqtt message publishingimport paho.mqtt.client as paho
 import paho.mqtt.publish as publish
-import time
-import random
+import time, random, os
 
-#hostname
-broker="tommy_mqtt"
+#broker="albert_mqtt"
+broker = os.environ.get("BROKER")
 topic = f"Gateway/{broker}/temperature"
 
 while True:

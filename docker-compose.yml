@@ -4,36 +4,42 @@ services:
   ################################## ALBERT  ##################################
   albert_presence:
   # podria ficar: "build: \n\t context: users/Albert
-    build: ./albert/sensors/presence
+    build: ./sensors/presence
     command: python3 -u presencesensor.py
     #maybe no fa falta depends on
     depends_on:
       - albert_mqtt
       - kafka
     restart: on-failure:10
+    environment:
+      - BROKER=albert_mqtt
 
   albert_temp:
-    build: ./albert/sensors/temperature
+    build: ./sensors/temperature
     command: python3 -u temperaturesensor.py
     depends_on:
       - albert_mqtt
       - kafka
     restart: on-failure:10
+    environment:
+      - BROKER=albert_mqtt
 
   ###ACTUADORS:
   albert_light:
-    build: ./albert/actuators/light
+    build: ./actuators/light
     command: python3 -u lightbulb.py
     depends_on:
       - albert_mqtt
     restart: on-failure:10
 
   albert_heat:
-    build: ./albert/actuators/heat
+    build: ./actuators/heat
     command: python3 -u heatpump.py
     depends_on:
       - albert_mqtt
     restart: on-failure:10
+    environment:
+      - BROKER=albert_mqtt
   ############################################################
   albert_mqtt:
     image: eclipse-mosquitto:latest
@@ -42,9 +48,11 @@ services:
     ports: 
     - 1883:1883
     restart: on-failure:10
+    environment:
+      - BROKER=albert_mqtt
 
   albert_gateway:
-    build: ./albert/gateway
+    build: ./gateway
     command: python3 -u gateway.py
     depends_on:
       - albert_mqtt
@@ -56,47 +64,55 @@ services:
       ################################## DAKOTA  ##################################
   dakota_presence:
   # podria ficar: "build: \n\t context: users/Albert
-    build: ./dakota/sensors/presence
+    build: ./sensors/presence
     command: python3 -u presencesensor.py
     #maybe no fa falta depends on
     depends_on:
       - dakota_mqtt
       - kafka
     restart: on-failure:10
+    environment:
+      - BROKER=dakota_mqtt
 
   dakota_temp:
-    build: ./dakota/sensors/temperature
+    build: ./sensors/temperature
     command: python3 -u temperaturesensor.py
     depends_on:
       - dakota_mqtt
       - kafka
     restart: on-failure:10
+    environment:
+      - BROKER=dakota_mqtt
 
   ###ACTUADORS:
   dakota_light:
-    build: ./dakota/actuators/light
+    build: ./actuators/light
     command: python3 -u lightbulb.py
     depends_on:
       - dakota_mqtt
     restart: on-failure:10
+    environment:
+      - BROKER=dakota_mqtt
 
   dakota_heat:
-    build: ./dakota/actuators/heat
+    build: ./actuators/heat
     command: python3 -u heatpump.py
     depends_on:
       - dakota_mqtt
     restart: on-failure:10
+    environment:
+      - BROKER=dakota_mqtt
   ############################################################
   dakota_mqtt:
     image: eclipse-mosquitto:latest
     volumes:
     - ./config:/mosquitto/config/
     ports: 
-    - 1883:1883
+    - 1884:1884
     restart: on-failure:10
 
   dakota_gateway:
-    build: ./dakota/gateway
+    build: ./gateway
     command: python3 -u gateway.py
     depends_on:
       - dakota_mqtt
@@ -108,47 +124,55 @@ services:
           ################################## Tifany  ##################################
   tifany_presence:
   # podria ficar: "build: \n\t context: users/Albert
-    build: ./tifany/sensors/presence
+    build: ./sensors/presence
     command: python3 -u presencesensor.py
     #maybe no fa falta depends on
     depends_on:
       - tifany_mqtt
       - kafka
     restart: on-failure:10
+    environment:
+      - BROKER=tifany_mqtt
 
   tifany_temp:
-    build: ./tifany/sensors/temperature
+    build: ./sensors/temperature
     command: python3 -u temperaturesensor.py
     depends_on:
       - tifany_mqtt
       - kafka
     restart: on-failure:10
+    environment:
+      - BROKER=tifany_mqtt
 
   ###ACTUADORS:
   tifany_light:
-    build: ./tifany/actuators/light
+    build: ./actuators/light
     command: python3 -u lightbulb.py
     depends_on:
       - tifany_mqtt
     restart: on-failure:10
+    environment:
+      - BROKER=tifany_mqtt
 
   tifany_heat:
-    build: ./tifany/actuators/heat
+    build: ./actuators/heat
     command: python3 -u heatpump.py
     depends_on:
       - tifany_mqtt
     restart: on-failure:10
+    environment:
+      - BROKER=tifany_mqtt
   ############################################################
   tifany_mqtt:
     image: eclipse-mosquitto:latest
     volumes:
     - ./config:/mosquitto/config/
     ports: 
-    - 1883:1883
+    - 1885:1885
     restart: on-failure:10
 
   tifany_gateway:
-    build: ./tifany/gateway
+    build: ./gateway
     command: python3 -u gateway.py
     depends_on:
       - tifany_mqtt
@@ -157,9 +181,65 @@ services:
       - BROKER=tifany_mqtt
     restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
 
-  
+   ################################## Tommy  ##################################
+    tommy_presence:
+      build: ./sensors/presence
+      command: python3 -u presencesensor.py
+      #maybe no fa falta depends on
+      depends_on:
+        - tommy_mqtt
+        - kafka
+      restart: on-failure:10
+      environment:
+        - BROKER=tommy_mqtt
 
-  #falten dos persones
+  tommy_temp:
+    build: ./sensors/temperature
+    command: python3 -u temperaturesensor.py
+    depends_on:
+      - tommy_mqtt
+      - kafka
+    restart: on-failure:10
+    environment:
+      - BROKER=tommyy_mqtt
+
+  ###ACTUADORS:
+  tommy_light:
+    build: ./actuators/light
+    command: python3 -u lightbulb.py
+    depends_on:
+      - tommy_mqtt
+    restart: on-failure:10
+    environment:
+      - BROKER=tommy_mqtt
+
+  tommy_heat:
+    build: ./actuators/heat
+    command: python3 -u heatpump.py
+    depends_on:
+      - tommy_mqtt
+    restart: on-failure:10
+    environment:
+      - BROKER=tommy_mqtt
+  ############################################################
+  tommy_mqtt:
+    image: eclipse-mosquitto:latest
+    volumes:
+    - ./config:/mosquitto/config/
+    ports: 
+    - 1885:1885
+    restart: on-failure:10
+
+  tommy_gateway:
+    build: ./gateway
+    command: python3 -u gateway.py
+    depends_on:
+      - tommy_mqtt
+      - kafka
+    environment:
+      - BROKER=tommy_mqtt
+    restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
+
   ##################################  MICROSERVEIS  ##################################
 
   cloud_save:
@@ -192,7 +272,7 @@ services:
     command: python3 -u actuate.py 
     depends_on:
       - kafka
-      - albert_mqtt
+      #- albert_mqtt
     restart: on-failure:10
 
 
@@ -205,7 +285,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ALLOW_ANONYMOUS_LOGIN: yes 
       ADMIN_ENABLE_SERVER: no
-      ZOO_LOG_LEVEL: WARN #perque calli una mica si volem tot INFO
+      ZOO_LOG_LEVEL: WARN # perque calli una mica si volem tot INFO
 
 
   kafka:
