@@ -9,8 +9,9 @@ topic = f"Gateway/{broker}/presence"
 while True:
     message = random.randint(-10,110)
     payload = str(message) + "/" + str(time.time()) + "/presence"
-
-    publish.single(topic = topic, payload = payload, hostname = "host.docker.internal")
+    port = int(os.environ.get("PORT"))
+    print(port)
+    publish.single(topic = topic, payload = payload, hostname = "host.docker.internal", port=port)
     print(f"Sent payload: {payload} // Topic: {topic}")
     
     time.sleep(5)

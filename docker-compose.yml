@@ -12,6 +12,7 @@ services:
       - kafka
     restart: on-failure:10
     environment:
+      - PORT=1883
       - BROKER=albert_mqtt
 
   albert_temp:
@@ -22,6 +23,7 @@ services:
       - kafka
     restart: on-failure:10
     environment:
+      - PORT=1883
       - BROKER=albert_mqtt
 
   ###ACTUADORS:
@@ -74,6 +76,7 @@ services:
       - kafka
     restart: on-failure:10
     environment:
+      - PORT=1884
       - BROKER=dakota_mqtt
 
   dakota_temp:
@@ -84,6 +87,7 @@ services:
       - kafka
     restart: on-failure:10
     environment:
+      - PORT=1884
       - BROKER=dakota_mqtt
 
   ###ACTUADORS:
@@ -135,6 +139,7 @@ services:
     restart: on-failure:10
     environment:
       - BROKER=tifany_mqtt
+      - PORT=1885
 
   tifany_temp:
     build: ./sensors/temperature
@@ -145,6 +150,7 @@ services:
     restart: on-failure:10
     environment:
       - BROKER=tifany_mqtt
+      - PORT=1885
 
   ###ACTUADORS:
   tifany_light:
@@ -194,6 +200,7 @@ services:
     restart: on-failure:10
     environment:
       - BROKER=tommy_mqtt
+      - PORT=1886
 
   tommy_temp:
     build: ./sensors/temperature
@@ -204,6 +211,7 @@ services:
     restart: on-failure:10
     environment:
       - BROKER=tommyy_mqtt
+      - PORT=1886
 
   ###ACTUADORS:
   tommy_light:
