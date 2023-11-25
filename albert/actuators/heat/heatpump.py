@@ -10,6 +10,6 @@ def on_message(client, userdata, msg):
     print(f"Pump is now: {pump}")
 
 if __name__ == "__main__":
-    broker = "cloud_actuate"
+    broker = "albert_mqtt"
     subscribe.callback(on_message, f"Actuate/{broker}/temperature/albert", hostname="host.docker.internal")
     

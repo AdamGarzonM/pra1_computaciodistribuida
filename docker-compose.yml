@@ -4,7 +4,7 @@ services:
   ################################## ALBERT  ##################################
   albert_presence:
   # podria ficar: "build: \n\t context: users/Albert
-    build: ./sensors/presence
+    build: ./albert/sensors/presence
     command: python3 -u presencesensor.py
     #maybe no fa falta depends on
     depends_on:
@@ -13,7 +13,7 @@ services:
     restart: on-failure:10
 
   albert_temp:
-    build: ./sensors/temperature
+    build: ./albert/sensors/temperature
     command: python3 -u temperaturesensor.py
     depends_on:
       - albert_mqtt
@@ -22,14 +22,14 @@ services:
 
   ###ACTUADORS:
   albert_light:
-    build: ./actuators/light
+    build: ./albert/actuators/light
     command: python3 -u lightbulb.py
     depends_on:
       - albert_mqtt
     restart: on-failure:10
 
   albert_heat:
-    build: ./actuators/heat
+    build: ./albert/actuators/heat
     command: python3 -u heatpump.py
     depends_on:
       - albert_mqtt
@@ -44,7 +44,7 @@ services:
     restart: on-failure:10
 
   albert_gateway:
-    build: ./gateway
+    build: ./albert/gateway
     command: python3 -u gateway.py
     depends_on:
       - albert_mqtt
@@ -52,6 +52,112 @@ services:
     environment:
       - BROKER=albert_mqtt
     restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
+
+      ################################## DAKOTA  ##################################
+  dakota_presence:
+  # podria ficar: "build: \n\t context: users/Albert
+    build: ./dakota/sensors/presence
+    command: python3 -u presencesensor.py
+    #maybe no fa falta depends on
+    depends_on:
+      - dakota_mqtt
+      - kafka
+    restart: on-failure:10
+
+  dakota_temp:
+    build: ./dakota/sensors/temperature
+    command: python3 -u temperaturesensor.py
+    depends_on:
+      - dakota_mqtt
+      - kafka
+    restart: on-failure:10
+
+  ###ACTUADORS:
+  dakota_light:
+    build: ./dakota/actuators/light
+    command: python3 -u lightbulb.py
+    depends_on:
+      - dakota_mqtt
+    restart: on-failure:10
+
+  dakota_heat:
+    build: ./dakota/actuators/heat
+    command: python3 -u heatpump.py
+    depends_on:
+      - dakota_mqtt
+    restart: on-failure:10
+  ############################################################
+  dakota_mqtt:
+    image: eclipse-mosquitto:latest
+    volumes:
+    - ./config:/mosquitto/config/
+    ports: 
+    - 1883:1883
+    restart: on-failure:10
+
+  dakota_gateway:
+    build: ./dakota/gateway
+    command: python3 -u gateway.py
+    depends_on:
+      - dakota_mqtt
+      - kafka
+    environment:
+      - BROKER=dakota_mqtt
+    restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
+
+          ################################## Tifany  ##################################
+  tifany_presence:
+  # podria ficar: "build: \n\t context: users/Albert
+    build: ./tifany/sensors/presence
+    command: python3 -u presencesensor.py
+    #maybe no fa falta depends on
+    depends_on:
+      - tifany_mqtt
+      - kafka
+    restart: on-failure:10
+
+  tifany_temp:
+    build: ./tifany/sensors/temperature
+    command: python3 -u temperaturesensor.py
+    depends_on:
+      - tifany_mqtt
+      - kafka
+    restart: on-failure:10
+
+  ###ACTUADORS:
+  tifany_light:
+    build: ./tifany/actuators/light
+    command: python3 -u lightbulb.py
+    depends_on:
+      - tifany_mqtt
+    restart: on-failure:10
+
+  tifany_heat:
+    build: ./tifany/actuators/heat
+    command: python3 -u heatpump.py
+    depends_on:
+      - tifany_mqtt
+    restart: on-failure:10
+  ############################################################
+  tifany_mqtt:
+    image: eclipse-mosquitto:latest
+    volumes:
+    - ./config:/mosquitto/config/
+    ports: 
+    - 1883:1883
+    restart: on-failure:10
+
+  tifany_gateway:
+    build: ./tifany/gateway
+    command: python3 -u gateway.py
+    depends_on:
+      - tifany_mqtt
+      - kafka
+    environment:
+      - BROKER=tifany_mqtt
+    restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
+
+  
 
   #falten dos persones
   ##################################  MICROSERVEIS  ##################################
