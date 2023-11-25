@@ -1,3 +1,15 @@
-print("lightbulb")
+import paho.mqtt.subscribe as subscribe
 
-#subscriure al mqtt i fer coses
+lightbulb = 0
+
+def on_message(client, userdata, msg):
+    data = msg.payload.decode() + "/" + broker
+    lightbulb = data.split('/')[0]
+
+    print(f"Lightbulb received payload: {data}.")
+    print(f"Lightbulb is now: {lightbulb}")
+
+if __name__ == "__main__":
+    broker = "cloud_actuate"
+    subscribe.callback(on_message, f"Actuate/{broker}/presence/albert", hostname="host.docker.internal")
+    

@@ -13,7 +13,7 @@ kafka_producer = KafkaProducer(
 
 def on_message(client, userdata, msg):
     data = msg.payload.decode() + "/" + broker
-    print(f"Gateway recieved payload: {data}")
+    print(f"Gateway received payload: {data}")
     # data_parts = data.split('/')
     # data_kind = data_parts[2]
     #data = data_parts[0] + "/" + data_parts[1]
