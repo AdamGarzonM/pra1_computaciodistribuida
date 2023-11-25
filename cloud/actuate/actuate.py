@@ -23,7 +23,7 @@ while True:
         if __name__ == "__main__":
             print("ACTUATE")
             for message in actuate_consumer:
-                #value='25/1700859867.9161658/temperature'
+                #value='32/1700928523.6854231/presence/dakota_mqtt
                 actuate_message = message.value.split("/")
                 msg_topic = actuate_message[2]
                 msg_value = actuate_message[0]

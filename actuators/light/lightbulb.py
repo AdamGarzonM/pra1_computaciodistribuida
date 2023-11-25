@@ -13,5 +13,7 @@ def on_message(client, userdata, msg):
 if __name__ == "__main__":
     #broker = "albert_mqtt"
     broker = os.environ.get("BROKER")
-    subscribe.callback(on_message, f"Actuate/{broker}/presence/albert", hostname="host.docker.internal")
+    topic = f"Actuate/{broker}/presence/albert"
+    print(f"LIGHTBULB with {broker} subscribing to {topic}...")
+    subscribe.callback(on_message, topic, hostname="host.docker.internal")
     
