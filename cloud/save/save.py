@@ -28,13 +28,14 @@ def prepareDbClient():
     return client, write_api
 
 def save_to_influxdb(message):
+    #message.topic
     source = 'raw' #TODO Aixo hauria de estar o dintre del missatge o com a depen del consumer que li envia
     #value='32/1700928523.6854231/presence/dakota_mqtt
     value, timestamp, data_type, broker = message.value.split("/")
     #broker = str(broker)
     print(f"SAVE has: {value}, {timestamp}, {data_type}, {broker}")
     p = Point(data_type).tag("Broker", broker).tag("Source", source).field("Value", int(value)).time(datetime.fromtimestamp(int(float(timestamp))), WritePrecision.MS)
-    print(f"SAVE tries to write: {p}")
+    #print(f"SAVE tries to write: {p}")
     write_api.write(bucket=db_bucket, record=p)
     print(f"SAVE has written: {p}")
 
@@ -63,7 +64,7 @@ def prepareConsumers():
         prepareConsumers()
 
 if __name__ == "__main__":
-    print("SAVE")
+    #print("SAVE")
     raw_save_consumer, clean_save_consumer = prepareConsumers()
     for message in raw_save_consumer: #aqui es llança una excepcio
     #for msg , message in zip(raw_save_consumer, clean_save_consumer):
