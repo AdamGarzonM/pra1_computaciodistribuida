@@ -12,7 +12,7 @@ while True:
     payload = str(message) + "/" + str(time.time()) + "/presence"
     
     publish.single(topic = topic, payload = payload, hostname = "host.docker.internal", port=port)
-    print(f"Sent payload: {payload} // Topic: {topic}")
+    print(f"Sent payload: {payload} Topic: {topic}")
     
     time.sleep(5)
     
