@@ -13,7 +13,7 @@ def on_message(client, userdata, msg):
 if __name__ == "__main__":
     #broker = "albert_mqtt"
     broker = os.environ.get("BROKER")
-    topic = f"Actuate/{broker}/temperature/albert"
+    topic = f"Actuate/{broker}/temperature"
     print(f"HEATPUMP with {broker} subscribing to {topic}...")
     subscribe.callback(on_message, topic, hostname="host.docker.internal")
     

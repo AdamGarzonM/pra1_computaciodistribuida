@@ -255,8 +255,6 @@ services:
     # ports: 
     #   - 8086:8086
     environment: 
-      DOCKER_INFLUXDB_INIT_USERNAME: damie
-      DOCKER_INFLUXDB_INIT_PASSWORD: pollagorda69 # TODO: canviar si se te por a l'exit 
       DOCKER_INFLUXDB_INIT_ORG: computacio
       DOCKER_INFLUXDB_INIT_BUCKET: computaciobucket
       DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: s2d3rf67ren42i0gg666er9

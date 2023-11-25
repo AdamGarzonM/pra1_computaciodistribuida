@@ -7,13 +7,12 @@ from datetime import datetime
 from influxdb_client import WritePrecision, InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 
-db_user = environ.get("DOCKER_INFLUXDB_INIT_USERNAME")
-db_pass = environ.get("DOCKER_INFLUXDB_INIT_PASSWORD")
-db_org = environ.get("DOCKER_INFLUXDB_INIT_ORG") #used
-db_bucket = environ.get("DOCKER_INFLUXDB_INIT_BUCKET") #used
-db_token = environ.get("DOCKER_INFLUXDB_INIT_ADMIN_TOKEN") #used
-db_hostname = environ.get("DOCKER_INFLUXDB_HOSTNAME")#used
-db_port = environ.get("DOCKER_INFLUXDB_PORT") #used
+
+db_org = environ.get("DOCKER_INFLUXDB_INIT_ORG")
+db_bucket = environ.get("DOCKER_INFLUXDB_INIT_BUCKET")
+db_token = environ.get("DOCKER_INFLUXDB_INIT_ADMIN_TOKEN")
+db_hostname = environ.get("DOCKER_INFLUXDB_HOSTNAME")
+db_port = environ.get("DOCKER_INFLUXDB_PORT")
 
 raw_topic = 'raw' 
 clean_topic = 'clean'
@@ -66,7 +65,7 @@ def prepareConsumers():
 if __name__ == "__main__":
     print("SAVE")
     raw_save_consumer, clean_save_consumer = prepareConsumers()
-    for message in raw_save_consumer:
+    for message in raw_save_consumer: #aqui es llança una excepcio
     #for msg , message in zip(raw_save_consumer, clean_save_consumer):
         #value='32/1700928523.6854231/presence/dakota_mqtt
         #message = message.value.split("/")

@@ -32,14 +32,13 @@ def prepareKafka():
 
 if __name__ == "__main__":
     print("CLEAN")
-    clean_consumer, clean_producer = prepareKafka()
-    for message in clean_consumer:
+    clean_consumer, clean_producer = prepareKafka() #aixo funcionava als altres aqui no idk (maybe)
+    for message in clean_consumer: #aqui es llança una excepcio (maybe)
         #value='25/1700859867.9161658/temperature'
         tmessage = message.value.split("/")
         topic = tmessage[2]
         value = int(tmessage[0])
         if topic == "temperature" and value >= -18 and value <= 28:
             print("s'entra a l'if")
-            ret = clean_producer.send("clean", value=message.value)
-            print(ret) 
+            clean_producer.send("clean", value=message.value)
                     
