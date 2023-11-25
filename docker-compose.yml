@@ -63,6 +63,7 @@ services:
       - kafka
     environment:
       - BROKER=albert_mqtt
+      - PORT=1883
     restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
 
       ################################## DAKOTA  ##################################
@@ -125,6 +126,7 @@ services:
       - kafka
     environment:
       - BROKER=dakota_mqtt
+      - PORT=1884
     restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
 
           ################################## Tifany  ##################################
@@ -187,6 +189,7 @@ services:
       - kafka
     environment:
       - BROKER=tifany_mqtt
+      - PORT=1885
     restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
 
    ################################## Tommy  ##################################
@@ -248,6 +251,7 @@ services:
       - kafka
     environment:
       - BROKER=tommy_mqtt
+      - PORT=1886
     restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
 
   ##################################  MICROSERVEIS  ##################################

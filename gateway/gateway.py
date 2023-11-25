@@ -22,6 +22,8 @@ def on_message(client, userdata, msg):
 
 if __name__ == "__main__":
     broker = os.environ.get("BROKER")
+    port = int(os.environ.get("PORT"))
     #broker = "albert_mqtt"
-    subscribe.callback(on_message, f"Gateway/{broker}/+", hostname="host.docker.internal")
+    print(f"Gateway amb Broker {broker} with port {port}")
+    subscribe.callback(on_message, f"Gateway/{broker}/+", hostname="host.docker.internal", port=port)
 

@@ -11,7 +11,6 @@ while True:
     message = random.randint(15,30)
     payload = str(message) + "/" + str(time.time()) + "/temperature"
     
-    print(port)
     publish.single(topic = topic, payload = payload, hostname = "host.docker.internal", port = port)
     print(f"Sent payload: {payload} // Topic: {topic}")
     
