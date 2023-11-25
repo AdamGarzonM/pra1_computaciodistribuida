@@ -1,10 +1,10 @@
 (IMPORTANT)
 - clean arreglar, segurament es per els topics/groups de kafka 
 - save fer-ho per la clean data (threads?, dos bucles seguits?, async?) 
-- tot pasa per albert_mqtt maybe pk el publish es fa per el port default
 
 (Taria guapo)
 - Optimitzar imports (importar os.environ en contes de os...)
 - Mirar de canviar la direccio dels Dockerfiles pk tenim com 4 o 5 que son iguals (com el de temperature)
 - borrar comentaris innecessaris
 - borrar prints innecessaris o ficar una flag de debug (k pereza)
+- exception handling de fors
