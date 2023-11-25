@@ -1,6 +1,7 @@
 (IMPORTANT)
 - clean arreglar, segurament es per els topics/groups de kafka 
 - save fer-ho per la clean data (threads?, dos bucles seguits?, async?) 
+- tot pasa per albert_mqtt maybe pk el publish es fa per el port default
 
 (Taria guapo)
 - Optimitzar imports (importar os.environ en contes de os...)
