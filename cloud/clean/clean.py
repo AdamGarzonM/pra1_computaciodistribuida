@@ -4,6 +4,8 @@ from json import loads
 from time import sleep
 import os
        
+
+#### FALLA. POSSIBLEMENT PER GRUPS PERÒ NO TENIM CERTESA
 kafka_topic = 'raw' 
 while True:
     try:
@@ -20,6 +22,7 @@ while True:
             bootstrap_servers='kafka:9092',
             value_serializer=lambda x: dumps(x).encode('utf-8'),
             api_version=(0,11,5), # no se si es necessari
+            max_in_flight_requests_per_connection = 1,
         )
 
         if __name__ == "__main__":
@@ -27,11 +30,12 @@ while True:
             for message in clean_consumer:
                 #value='25/1700859867.9161658/temperature'
                 tmessage = message.value.split("/")
-                print(message)
                 topic = tmessage[2]
                 value = int(tmessage[0])
                 if topic == "temperature" and value >= -18 and value <= 28:
-                    clean_producer.send("clean", message)
+                    print("s'entra a l'if")
+                    ret = clean_producer.send("clean", value=message.value)
+                    print(ret) 
                     
 
     except: #NoBrokersAvailable

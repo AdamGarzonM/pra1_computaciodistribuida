@@ -8,6 +8,7 @@ kafka_producer = KafkaProducer(
     bootstrap_servers='kafka:9092',
     value_serializer=lambda x: dumps(x).encode('utf-8'),
     api_version=(0,11,5), # no se si es necessari
+    max_in_flight_requests_per_connection = 1
 )
 
 def on_message(client, userdata, msg):

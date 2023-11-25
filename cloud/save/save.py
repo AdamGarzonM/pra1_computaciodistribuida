@@ -30,7 +30,7 @@ while True:
         clean_save_consumer = KafkaConsumer(
             clean_topic,
             bootstrap_servers = ['kafka : 9092'],
-            group_id = 'save_service',
+            group_id = 'save_service_clean',
             auto_offset_reset = 'latest',
             enable_auto_commit = True,
             value_deserializer = lambda x: loads(x.decode('utf-8'))
@@ -38,12 +38,12 @@ while True:
 
         if __name__ == "__main__":
             print("SAVE")
+            for message in clean_save_consumer:
             #for msg , message in zip(raw_save_consumer, clean_save_consumer):
-            for msg in raw_save_consumer:
                 #value='25/1700859867.9161658/temperature'
                 #message = message.value.split("/")
-                print(f"SAVE_RAW recieved message: {msg}")
-                #print(f"SAVE_CLEAN recieved message: {message}")
+                #print(f"SAVE_RAW recieved message: {msg}")
+                print(f"SAVE_CLEAN recieved message: {message}")
     except: #NoBrokersAvailable
         sleep(1)
         pass
