@@ -32,13 +32,18 @@ def prepareKafka():
 
 if __name__ == "__main__":
     print("CLEAN")
-    clean_consumer, clean_producer = prepareKafka() #aixo funcionava als altres aqui no idk (maybe)
+    clean_consumer, clean_producer = prepareKafka()
     for message in clean_consumer: #aqui es llança una excepcio (maybe)
-        #value='25/1700859867.9161658/temperature'
-        tmessage = message.value.split("/")
-        topic = tmessage[2]
-        value = int(tmessage[0])
+        #value=51/1700950233.1468713/presence/tommy_mqtt'
+        value, _, topic, _ = message.value.split("/")
+        value = int(value)
         if topic == "temperature" and value >= -18 and value <= 28:
-            print("s'entra a l'if")
+            print(f"CLEAN will try to send {message.value}")
             clean_producer.send("clean", value=message.value)
-                    
+            print(f"CLEAN has sent {message.value}")
+        elif topic == "presence" and value >= 0 and value <= 100:
+            print(f"CLEAN will try to send {message.value}")
+            clean_producer.send("clean", value=message.value)
+            print(f"CLEAN has sent {message.value}")
+        else:
+            print(f"CLEAN has discarded {message.value}")

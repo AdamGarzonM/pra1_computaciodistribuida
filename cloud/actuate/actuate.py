@@ -4,7 +4,7 @@ import paho.mqtt.publish as publish
 from json import loads
 from time import sleep
 
-raw_topic = 'raw'  # Utilitza el mateix tema al qual es subscriu l'altre microservei
+topic = 'clean'  # Utilitza el mateix tema al qual es subscriu l'altre microservei
 broker = "albert_mqtt"
 temp_topic = f"Actuate/{broker}/temperature"
 presence_topic = f"Actuate/{broker}/presence"
@@ -12,7 +12,7 @@ presence_topic = f"Actuate/{broker}/presence"
 def prepareConsumer():
     try:
         actuate_consumer = KafkaConsumer(
-            raw_topic,
+            topic,
             bootstrap_servers = ['kafka : 9092'],
             group_id = 'actuate_service',
             auto_offset_reset = 'latest',

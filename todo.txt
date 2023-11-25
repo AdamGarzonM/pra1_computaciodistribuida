@@ -1,5 +1,4 @@
 (IMPORTANT)
-- clean arreglar, segurament es per els topics/groups de kafka 
 - save fer-ho per la clean data (threads?, dos bucles seguits?, async?) 
 
 (Taria guapo)
