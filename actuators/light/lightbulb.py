@@ -4,10 +4,10 @@ import os
 lightbulb = 0
 
 def on_message(client, userdata, msg):
-    data = msg.payload.decode() + "/" + broker
-    lightbulb = data.split('/')[0]
+    data = msg.payload.decode()
+    lightbulb = int(data.split('/')[0])
 
-    print(f"Lightbulb received payload: {data}.")
+    print(f"Lightbulb received payload: {data} from {broker}")
     print(f"Lightbulb is now: {lightbulb}")
 
 if __name__ == "__main__":

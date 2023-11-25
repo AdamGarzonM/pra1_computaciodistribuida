@@ -4,10 +4,10 @@ import os
 pump = 20
 
 def on_message(client, userdata, msg):
-    data = msg.payload.decode() + "/" + broker
-    pump = data.split('/')[0]
+    data = msg.payload.decode()
+    pump = int(data.split('/')[0])
 
-    print(f"Heatpump received payload: {data}.")
+    print(f"Heatpump received payload: {data} from {broker}")
     print(f"Pump is now: {pump}")
 
 if __name__ == "__main__":

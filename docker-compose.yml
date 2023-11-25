@@ -31,6 +31,8 @@ services:
     depends_on:
       - albert_mqtt
     restart: on-failure:10
+    environment:
+      - BROKER=albert_mqtt
 
   albert_heat:
     build: ./actuators/heat
