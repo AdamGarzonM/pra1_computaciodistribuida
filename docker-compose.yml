@@ -168,7 +168,7 @@ services:
     volumes:
     - ./config:/mosquitto/config/
     ports: 
-    - 1885:1885
+    - 1886:1886
     restart: on-failure:10
 
   tifany_gateway:
@@ -182,16 +182,16 @@ services:
     restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
 
    ################################## Tommy  ##################################
-    tommy_presence:
-      build: ./sensors/presence
-      command: python3 -u presencesensor.py
-      #maybe no fa falta depends on
-      depends_on:
-        - tommy_mqtt
-        - kafka
-      restart: on-failure:10
-      environment:
-        - BROKER=tommy_mqtt
+  tommy_presence:
+    build: ./sensors/presence
+    command: python3 -u presencesensor.py
+    #maybe no fa falta depends on
+    depends_on:
+      - tommy_mqtt
+      - kafka
+    restart: on-failure:10
+    environment:
+      - BROKER=tommy_mqtt
 
   tommy_temp:
     build: ./sensors/temperature

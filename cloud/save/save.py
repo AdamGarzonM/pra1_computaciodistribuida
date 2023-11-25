@@ -38,7 +38,7 @@ while True:
 
         if __name__ == "__main__":
             print("SAVE")
-            for message in clean_save_consumer:
+            for message in raw_save_consumer:
             #for msg , message in zip(raw_save_consumer, clean_save_consumer):
                 #value='25/1700859867.9161658/temperature'
                 #message = message.value.split("/")
