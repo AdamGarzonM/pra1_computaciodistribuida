@@ -1,13 +1,14 @@
 from kafka import KafkaConsumer, KafkaProducer
 #from kafka import NoBrokersAvailable
-from json import loads
+from json import loads, dumps
 from time import sleep
 import os
        
 
 #### FALLA. POSSIBLEMENT PER GRUPS PERÒ NO TENIM CERTESA
 kafka_topic = 'raw' 
-while True:
+
+def prepareKafka():
     try:
         clean_consumer = KafkaConsumer(
             kafka_topic,
@@ -24,20 +25,21 @@ while True:
             api_version=(0,11,5), # no se si es necessari
             max_in_flight_requests_per_connection = 1,
         )
-
-        if __name__ == "__main__":
-            print("CLEAN")
-            for message in clean_consumer:
-                #value='25/1700859867.9161658/temperature'
-                tmessage = message.value.split("/")
-                topic = tmessage[2]
-                value = int(tmessage[0])
-                if topic == "temperature" and value >= -18 and value <= 28:
-                    print("s'entra a l'if")
-                    ret = clean_producer.send("clean", value=message.value)
-                    print(ret) 
-                    
-
-    except: #NoBrokersAvailable
+        return clean_consumer, clean_producer
+    except:
         sleep(1)
-        pass
+        prepareKafka()
+
+if __name__ == "__main__":
+    print("CLEAN")
+    clean_consumer, clean_producer = prepareKafka()
+    for message in clean_consumer:
+        #value='25/1700859867.9161658/temperature'
+        tmessage = message.value.split("/")
+        topic = tmessage[2]
+        value = int(tmessage[0])
+        if topic == "temperature" and value >= -18 and value <= 28:
+            print("s'entra a l'if")
+            ret = clean_producer.send("clean", value=message.value)
+            print(ret) 
+                    
