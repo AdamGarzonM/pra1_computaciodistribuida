@@ -3,24 +3,24 @@ services:
   ################################## USUARIS ##################################
   ################################## ALBERT  ##################################
   albert_presence:
-  # podria ficar: "build: \n\t context: users/Albert
-    build: ./sensors/presence
+    build: 
+      context: ./sensors/presence
+      dockerfile: ../../Dockerfile
     command: python3 -u presencesensor.py
-    #maybe no fa falta depends on
     depends_on:
       - albert_mqtt
-      - kafka
     restart: on-failure:10
     environment:
       - PORT=1883
       - BROKER=albert_mqtt
 
   albert_temp:
-    build: ./sensors/temperature
+    build: 
+      context: ./sensors/temperature
+      dockerfile: ../../Dockerfile
     command: python3 -u temperaturesensor.py
     depends_on:
       - albert_mqtt
-      - kafka
     restart: on-failure:10
     environment:
       - PORT=1883
@@ -28,7 +28,9 @@ services:
 
   ###ACTUADORS:
   albert_light:
-    build: ./actuators/light
+    build: 
+      context: ./actuators/light
+      dockerfile: ../../Dockerfile
     command: python3 -u lightbulb.py
     depends_on:
       - albert_mqtt
@@ -37,7 +39,9 @@ services:
       - BROKER=albert_mqtt
 
   albert_heat:
-    build: ./actuators/heat
+    build: 
+      context: ./actuators/heat
+      dockerfile: ../../Dockerfile
     command: python3 -u heatpump.py
     depends_on:
       - albert_mqtt
@@ -56,7 +60,9 @@ services:
       - BROKER=albert_mqtt
 
   albert_gateway:
-    build: ./gateway
+    build: 
+      context: ./gateway
+      dockerfile: ../Dockerfile
     command: python3 -u gateway.py
     depends_on:
       - albert_mqtt
@@ -64,28 +70,28 @@ services:
     environment:
       - BROKER=albert_mqtt
       - PORT=1883
-    restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
+    restart: on-failure:20
 
       ################################## DAKOTA  ##################################
   dakota_presence:
-  # podria ficar: "build: \n\t context: users/Albert
-    build: ./sensors/presence
+    build: 
+      context: ./sensors/presence
+      dockerfile: ../../Dockerfile
     command: python3 -u presencesensor.py
-    #maybe no fa falta depends on
     depends_on:
       - dakota_mqtt
-      - kafka
     restart: on-failure:10
     environment:
       - PORT=1884
       - BROKER=dakota_mqtt
 
   dakota_temp:
-    build: ./sensors/temperature
+    build: 
+      context: ./sensors/temperature
+      dockerfile: ../../Dockerfile
     command: python3 -u temperaturesensor.py
     depends_on:
       - dakota_mqtt
-      - kafka
     restart: on-failure:10
     environment:
       - PORT=1884
@@ -93,7 +99,9 @@ services:
 
   ###ACTUADORS:
   dakota_light:
-    build: ./actuators/light
+    build: 
+      context: ./actuators/light
+      dockerfile: ../../Dockerfile
     command: python3 -u lightbulb.py
     depends_on:
       - dakota_mqtt
@@ -102,7 +110,9 @@ services:
       - BROKER=dakota_mqtt
 
   dakota_heat:
-    build: ./actuators/heat
+    build: 
+      context: ./actuators/heat
+      dockerfile: ../../Dockerfile
     command: python3 -u heatpump.py
     depends_on:
       - dakota_mqtt
@@ -119,7 +129,9 @@ services:
     restart: on-failure:10
 
   dakota_gateway:
-    build: ./gateway
+    build: 
+      context: ./gateway
+      dockerfile: ../Dockerfile
     command: python3 -u gateway.py
     depends_on:
       - dakota_mqtt
@@ -127,28 +139,29 @@ services:
     environment:
       - BROKER=dakota_mqtt
       - PORT=1884
-    restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
+    restart: on-failure:20
 
           ################################## Tifany  ##################################
   tifany_presence:
-  # podria ficar: "build: \n\t context: users/Albert
-    build: ./sensors/presence
+    build: 
+      context: ./sensors/presence
+      dockerfile: ../../Dockerfile
     command: python3 -u presencesensor.py
     #maybe no fa falta depends on
     depends_on:
       - tifany_mqtt
-      - kafka
     restart: on-failure:10
     environment:
       - BROKER=tifany_mqtt
       - PORT=1885
 
   tifany_temp:
-    build: ./sensors/temperature
+    build: 
+      context: ./sensors/temperature
+      dockerfile: ../../Dockerfile
     command: python3 -u temperaturesensor.py
     depends_on:
       - tifany_mqtt
-      - kafka
     restart: on-failure:10
     environment:
       - BROKER=tifany_mqtt
@@ -156,7 +169,9 @@ services:
 
   ###ACTUADORS:
   tifany_light:
-    build: ./actuators/light
+    build: 
+      context: ./actuators/light
+      dockerfile: ../../Dockerfile
     command: python3 -u lightbulb.py
     depends_on:
       - tifany_mqtt
@@ -165,7 +180,9 @@ services:
       - BROKER=tifany_mqtt
 
   tifany_heat:
-    build: ./actuators/heat
+    build: 
+      context: ./actuators/heat
+      dockerfile: ../../Dockerfile
     command: python3 -u heatpump.py
     depends_on:
       - tifany_mqtt
@@ -182,7 +199,9 @@ services:
     restart: on-failure:10
 
   tifany_gateway:
-    build: ./gateway
+    build: 
+      context: ./gateway
+      dockerfile: ../Dockerfile
     command: python3 -u gateway.py
     depends_on:
       - tifany_mqtt
@@ -190,27 +209,28 @@ services:
     environment:
       - BROKER=tifany_mqtt
       - PORT=1885
-    restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
+    restart: on-failure:20
 
    ################################## Tommy  ##################################
   tommy_presence:
-    build: ./sensors/presence
+    build: 
+      context: ./sensors/presence
+      dockerfile: ../../Dockerfile
     command: python3 -u presencesensor.py
-    #maybe no fa falta depends on
     depends_on:
       - tommy_mqtt
-      - kafka
     restart: on-failure:10
     environment:
       - BROKER=tommy_mqtt
       - PORT=1886
 
   tommy_temp:
-    build: ./sensors/temperature
+    build: 
+      context: ./sensors/temperature
+      dockerfile: ../../Dockerfile
     command: python3 -u temperaturesensor.py
     depends_on:
       - tommy_mqtt
-      - kafka
     restart: on-failure:10
     environment:
       - BROKER=tommy_mqtt
@@ -218,7 +238,9 @@ services:
 
   ###ACTUADORS:
   tommy_light:
-    build: ./actuators/light
+    build: 
+      context: ./actuators/light
+      dockerfile: ../../Dockerfile
     command: python3 -u lightbulb.py
     depends_on:
       - tommy_mqtt
@@ -227,7 +249,9 @@ services:
       - BROKER=tommy_mqtt
 
   tommy_heat:
-    build: ./actuators/heat
+    build: 
+      context: ./actuators/heat
+      dockerfile: ../../Dockerfile
     command: python3 -u heatpump.py
     depends_on:
       - tommy_mqtt
@@ -244,7 +268,9 @@ services:
     restart: on-failure:10
 
   tommy_gateway:
-    build: ./gateway
+    build: 
+      context: ./gateway
+      dockerfile: ../Dockerfile
     command: python3 -u gateway.py
     depends_on:
       - tommy_mqtt
@@ -257,7 +283,9 @@ services:
   ##################################  MICROSERVEIS  ##################################
 
   cloud_save:
-    build: ./cloud/save
+    build: 
+      context: ./cloud/save
+      dockerfile: ../../Dockerfile
     command: python3 -u save.py
     depends_on:
       - kafka
@@ -275,7 +303,9 @@ services:
 
 
   cloud_clean:
-    build: ./cloud/clean
+    build: 
+      context: ./cloud/clean
+      dockerfile: ../../Dockerfile
     command: python3 -u clean.py
     depends_on:
       - kafka
@@ -283,7 +313,9 @@ services:
     restart: unless-stopped
 
   cloud_actuate:
-    build: ./cloud/actuate
+    build: 
+      context: ./cloud/actuate
+      dockerfile: ../../Dockerfile
     command: python3 -u actuate.py 
     depends_on:
       - kafka
@@ -333,7 +365,7 @@ services:
       DOCKER_INFLUXDB_INIT_PASSWORD: pollagorda69 # TODO: canviar si se te por a l'exit 
       DOCKER_INFLUXDB_INIT_ORG: computacio
       DOCKER_INFLUXDB_INIT_BUCKET: computaciobucket
-      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: s2d3rf67ren42i0gg666er9 # Cckl1gMBLQBjG1vBxFyKN3vauKgbIU13uIQKzsevbmhnODPpPIegNVBN-VWWRF5r0k4AuXpC5MmaXAwUoADLaQ==
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: s2d3rf67ren42i0gg666er9 
       DOCKER_INFLUXDB_RETENTION: 1w
       #DOCKER_INFLUXDB_REPORTING_DISABLED: 'true' #potser no fan falta
 

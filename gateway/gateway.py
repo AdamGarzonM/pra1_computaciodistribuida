@@ -25,5 +25,7 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT"))
     #broker = "albert_mqtt"
     print(f"Gateway amb Broker {broker} with port {port}")
+    # Gw/albert/temperature
+    # Gw/albert/presence
     subscribe.callback(on_message, f"Gateway/{broker}/+", hostname="host.docker.internal", port=port)
 

@@ -3,7 +3,5 @@
 
 (Taria guapo)
 - Optimitzar imports (importar os.environ en contes de os...)
-- Mirar de canviar la direccio dels Dockerfiles pk tenim com 4 o 5 que son iguals (com el de temperature)
-- borrar comentaris innecessaris
+- borrar comentaris innecessaris (done in docker compose)
 - borrar prints innecessaris o ficar una flag de debug (k pereza)
-- exception handling de fors
