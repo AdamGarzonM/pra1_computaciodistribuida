@@ -31,7 +31,7 @@ def prepareKafka():
         prepareKafka()
 
 if __name__ == "__main__":
-    print("CLEAN")
+    print("Starting cloud microservice CLEAN")
     clean_consumer, clean_producer = prepareKafka()
     for message in clean_consumer: #aqui es llança una excepcio (maybe)
         #value=51/1700950233.1468713/presence/tommy_mqtt'

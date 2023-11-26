@@ -25,16 +25,16 @@ def prepareDbClient():
         token = db_token,
         org = db_org,
     )
-    write_api = client.write_api(write_options=SYNCHRONOUS)
-    return client, write_api
+    twrite_api = client.write_api(write_options=SYNCHRONOUS)
+    return client, twrite_api
 
-def save_to_influxdb(message):
+def save_to_influxdb(message, write_api):
     #message.topic
     source = message.topic #TODO Aixo hauria de estar o dintre del missatge o com a depen del consumer que li envia
     #value='32/1700928523.6854231/presence/dakota_mqtt
     value, timestamp, data_type, broker = message.value.split("/")
     #broker = str(broker)
-    print(f"SAVE has: {value}, {timestamp}, {data_type}, {broker}, {source}")
+    #print(f"SAVE has: {value}, {timestamp}, {data_type}, {broker}, {source}")
     p = Point(data_type).tag("Broker", broker).tag("Source", source).field("Value", int(value)).time(datetime.fromtimestamp(int(float(timestamp))), WritePrecision.MS)
     #print(f"SAVE tries to write: {p}")
     write_api.write(bucket=db_bucket, record=p)
@@ -66,19 +66,28 @@ def prepareConsumers():
 
 
 def thread_func(raw_save_consumer):
+    print("RAW_SAVE THREAD")
     for message in raw_save_consumer:
-        client, raw_write_api = prepareDbClient()
+        raw_client, raw_write_api = prepareDbClient()
         save_to_influxdb(message, raw_write_api)
-        client.close()
+        raw_client.close()
 
 
 if __name__ == "__main__":
-    #print("SAVE")
-    raw_save_consumer, clean_save_consumer = prepareConsumers()
+    print("Starting cloud microservice SAVE")
+    while True:
+        try:
+            raw_save_consumer, clean_save_consumer = prepareConsumers()
+            break
+        except TypeError as e:
+            print(f"Error: {e}; because kafka is not ready, trying again...")
+            sleep(2)
     #for message in raw_save_consumer: #aqui es llança una excepcio
     #for message in clean_save_consumer:
-    # raw_thread = threading.Thread(target=thread_func, args=raw_save_consumer)
-    # raw_thread.start()
+    
+    raw_thread = threading.Thread(target=thread_func, args=(raw_save_consumer,), daemon=True)
+    raw_thread.start()
+    
     for message in clean_save_consumer:
         #value='32/1700928523.6854231/presence/dakota_mqtt
         #message = message.value.split("/")
@@ -86,11 +95,11 @@ if __name__ == "__main__":
         #print(f"SAVE recieved message: {message}")
         
         #asyncio.ensure_future(save_to_influxdb(message=message))
-        client, write_api = prepareDbClient()
-        save_to_influxdb(message)
-        client.close()
+        clean_client, clean_write_api = prepareDbClient()
+        save_to_influxdb(message, clean_write_api)
+        clean_client.close()
 
-    for message in raw_save_consumer:
-        client, write_api = prepareDbClient()
-        save_to_influxdb(message)
-        client.close()
+    # for message in raw_save_consumer:
+    #     client, write_api = prepareDbClient()
+    #     save_to_influxdb(message)
+    #     client.close()

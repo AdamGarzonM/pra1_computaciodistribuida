@@ -25,7 +25,7 @@ def prepareConsumer():
         prepareConsumer()
 
 if __name__ == "__main__":
-    print("ACTUATE")
+    print("Starting cloud microservice ACTUATE")
     actuate_consumer = prepareConsumer()
     for message in actuate_consumer: #aqui es llança una excepcio
         #topic dels actuadors:
