@@ -147,7 +147,6 @@ services:
       context: ./sensors/presence
       dockerfile: ../../Dockerfile
     command: python3 -u presencesensor.py
-    #maybe no fa falta depends on
     depends_on:
       - tifany_mqtt
     restart: on-failure:10
@@ -278,7 +277,7 @@ services:
     environment:
       - BROKER=tommy_mqtt
       - PORT=1886
-    restart: on-failure:20 #aixo abans era necessari ara crec que no ns pk
+    restart: on-failure:20
 
   ##################################  MICROSERVEIS  ##################################
 
@@ -290,10 +289,7 @@ services:
     depends_on:
       - kafka
       - influxdb
-      #- albert_gateway
     restart: unless-stopped
-    # ports: 
-    #   - 8086:8086
     environment: 
       DOCKER_INFLUXDB_INIT_ORG: computacio
       DOCKER_INFLUXDB_INIT_BUCKET: computaciobucket
@@ -309,7 +305,6 @@ services:
     command: python3 -u clean.py
     depends_on:
       - kafka
-      #- albert_gateway
     restart: unless-stopped
 
   cloud_actuate:
@@ -319,7 +314,6 @@ services:
     command: python3 -u actuate.py 
     depends_on:
       - kafka
-      #- albert_mqtt
     restart: unless-stopped
 
 
@@ -332,7 +326,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ALLOW_ANONYMOUS_LOGIN: yes 
       ADMIN_ENABLE_SERVER: no
-      ZOO_LOG_LEVEL: WARN # perque calli una mica si volem tot INFO
+      ZOO_LOG_LEVEL: WARN 
 
 
   kafka:
@@ -347,7 +341,6 @@ services:
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      #TOPIC_AUTO_CREATE: False
     depends_on:
       - zookeeper
     
@@ -362,12 +355,11 @@ services:
     environment: 
       DOCKER_INFLUXDB_INIT_MODE: setup
       DOCKER_INFLUXDB_INIT_USERNAME: damie
-      DOCKER_INFLUXDB_INIT_PASSWORD: pollagorda69 # TODO: canviar si se te por a l'exit 
+      DOCKER_INFLUXDB_INIT_PASSWORD: pollagorda69
       DOCKER_INFLUXDB_INIT_ORG: computacio
       DOCKER_INFLUXDB_INIT_BUCKET: computaciobucket
       DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: s2d3rf67ren42i0gg666er9 
       DOCKER_INFLUXDB_RETENTION: 1w
-      #DOCKER_INFLUXDB_REPORTING_DISABLED: 'true' #potser no fan falta
 
 volumes:
   config:
