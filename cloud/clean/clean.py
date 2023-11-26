@@ -32,17 +32,21 @@ def prepareKafka():
 
 if __name__ == "__main__":
     print("Starting cloud microservice CLEAN")
-    clean_consumer, clean_producer = prepareKafka()
+    while True:
+        try:
+            clean_consumer, clean_producer = prepareKafka()
+            break
+        except TypeError as e:
+            print(f"Error: {e}; because kafka is not ready, trying again...")
+            sleep(2)
     for message in clean_consumer: #aqui es llança una excepcio (maybe)
         #value=51/1700950233.1468713/presence/tommy_mqtt'
         value, _, topic, _ = message.value.split("/")
         value = int(value)
         if topic == "temperature" and value >= -18 and value <= 28:
-            print(f"CLEAN will try to send {message.value}")
             clean_producer.send("clean", value=message.value)
             print(f"CLEAN has sent {message.value}")
         elif topic == "presence" and value >= 0 and value <= 100:
-            print(f"CLEAN will try to send {message.value}")
             clean_producer.send("clean", value=message.value)
             print(f"CLEAN has sent {message.value}")
         else:

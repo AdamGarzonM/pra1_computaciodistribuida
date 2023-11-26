@@ -213,7 +213,7 @@ services:
       - kafka
     restart: on-failure:10
     environment:
-      - BROKER=tommyy_mqtt
+      - BROKER=tommy_mqtt
       - PORT=1886
 
   ###ACTUADORS:
@@ -280,7 +280,7 @@ services:
     depends_on:
       - kafka
       #- albert_gateway
-    restart: on-failure:10
+    restart: unless-stopped
 
   cloud_actuate:
     build: ./cloud/actuate
@@ -288,7 +288,7 @@ services:
     depends_on:
       - kafka
       #- albert_mqtt
-    restart: on-failure:10
+    restart: unless-stopped
 
 
   ################################## COSES DE KAFKA ##################################

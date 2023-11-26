@@ -5,9 +5,6 @@ from json import loads
 from time import sleep
 
 topic = 'clean'  # Utilitza el mateix tema al qual es subscriu l'altre microservei
-broker = "albert_mqtt"
-temp_topic = f"Actuate/{broker}/temperature"
-presence_topic = f"Actuate/{broker}/presence"
 
 def prepareConsumer():
     try:
@@ -26,7 +23,14 @@ def prepareConsumer():
 
 if __name__ == "__main__":
     print("Starting cloud microservice ACTUATE")
-    actuate_consumer = prepareConsumer()
+    while True:
+        try:
+            actuate_consumer = prepareConsumer()
+            break
+        except TypeError as e:
+            print(f"Error: {e}; because kafka is not ready, trying again...")
+            sleep(2)
+    
     for message in actuate_consumer: #aqui es llança una excepcio
         #topic dels actuadors:
         # Actuate/albert_mqtt/temperature/albert.
