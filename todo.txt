@@ -1,7 +1,2 @@
-(IMPORTANT)
-- save fer-ho per la clean data (threads?, dos bucles seguits?, async?) 
-
 (Taria guapo)
-- Optimitzar imports (importar os.environ en contes de os...)
-- borrar comentaris innecessaris (done in docker compose)
 - borrar prints innecessaris o ficar una flag de debug (k pereza)

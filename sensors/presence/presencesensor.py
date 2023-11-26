@@ -1,18 +1,17 @@
-#simulator device 1 for mqtt message publishingimport paho.mqtt.client as paho
 import paho.mqtt.publish as publish
-import time, random, os
+from time import sleep, time
+from random import randint
+from os import environ
 
-#broker="albert_mqtt"
-broker = os.environ.get("BROKER")
+broker = environ.get("BROKER")
 topic = f"Gateway/{broker}/presence" 
-port = int(os.environ.get("PORT"))
+port = int(environ.get("PORT"))
 
 while True:
-    message = random.randint(-10,110)
-    payload = str(message) + "/" + str(time.time()) + "/presence"
-    
+    message = randint(-10,110)
+    payload = str(message) + "/" + str(time()) + "/presence"
     publish.single(topic = topic, payload = payload, hostname = "host.docker.internal", port=port)
     print(f"Sent payload: {payload} Topic: {topic}")
     
-    time.sleep(5)
+    sleep(5)
     

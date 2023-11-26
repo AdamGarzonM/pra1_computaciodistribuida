@@ -1,10 +1,9 @@
 from kafka import KafkaConsumer
-import time
 import paho.mqtt.publish as publish
 from json import loads
 from time import sleep
 
-topic = 'clean'  # Utilitza el mateix tema al qual es subscriu l'altre microservei
+topic = 'clean'
 
 def prepareConsumer():
     try:
@@ -31,10 +30,7 @@ if __name__ == "__main__":
             print(f"Error: {e}; because kafka is not ready, trying again...")
             sleep(2)
     
-    for message in actuate_consumer: #aqui es llança una excepcio
-        #topic dels actuadors:
-        # Actuate/albert_mqtt/temperature/albert.
-        #ConsumerRecord(topic='raw', partition=0, offset=146, timestamp=1700942514435, timestamp_type=0, key=None, value='96/1700942514.4258428/presence/tommy_mqtt', headers=[], checksum=None, serialized_key_size=-1, serialized_value_size=43, serialized_header_size=-1)
+    for message in actuate_consumer:
         msg_value, _, msg_topic, msg_broker = message.value.split("/")
         msg_value = int(msg_value)
         print(f"ACTUATE is processing message {message}")
@@ -50,8 +46,6 @@ if __name__ == "__main__":
                 publish.single(actuator_topic, payload, hostname = "host.docker.internal")
                 print(f"ACTUATE sent payload {payload} into topic {actuator_topic}")
                 continue
-
-        #Presence pot anar sol perquè per tots valors, enviarà un missatge. Temperature no, perquè hi ha certs valors on no s'envia re
         if msg_topic == "presence":
             if(msg_value >= 50):
                 payload = 1

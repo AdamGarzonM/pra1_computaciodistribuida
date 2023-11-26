@@ -1,5 +1,5 @@
 import paho.mqtt.subscribe as subscribe
-import os
+from os import environ
 
 lightbulb = 0
 
@@ -12,7 +12,7 @@ def on_message(client, userdata, msg):
 
 if __name__ == "__main__":
     #broker = "albert_mqtt"
-    broker = os.environ.get("BROKER")
+    broker = environ.get("BROKER")
     topic = f"Actuate/{broker}/presence"
     print(f"LIGHTBULB with {broker} subscribing to {topic}...")
     subscribe.callback(on_message, topic, hostname="host.docker.internal")
