@@ -1,2 +1,0 @@
-(Taria guapo)
-- borrar prints innecessaris o ficar una flag de debug (k pereza)
