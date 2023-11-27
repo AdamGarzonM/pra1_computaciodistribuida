@@ -327,7 +327,7 @@ services:
       ALLOW_ANONYMOUS_LOGIN: yes 
       ADMIN_ENABLE_SERVER: no
       ZOO_LOG_LEVEL: WARN 
-
+    restart: on-failure:10
 
   kafka:
     image: bitnami/kafka:latest
@@ -343,6 +343,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     depends_on:
       - zookeeper
+    restart: on-failure:10
     
       ################################## INFLUXDB ##################################
 
@@ -360,6 +361,7 @@ services:
       DOCKER_INFLUXDB_INIT_BUCKET: computaciobucket
       DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: s2d3rf67ren42i0gg666er9 
       DOCKER_INFLUXDB_RETENTION: 1w
+    restart: on-failure:10
 
 volumes:
   config:
