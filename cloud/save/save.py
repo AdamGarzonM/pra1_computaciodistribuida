@@ -1,5 +1,4 @@
 from kafka import KafkaConsumer
-#from kafka import NoBrokersAvailable
 import threading
 from json import loads
 from time import sleep
@@ -29,14 +28,9 @@ def prepareDbClient():
     return client, twrite_api
 
 def save_to_influxdb(message, write_api):
-    #message.topic
-    source = message.topic #TODO Aixo hauria de estar o dintre del missatge o com a depen del consumer que li envia
-    #value='32/1700928523.6854231/presence/dakota_mqtt
+    source = message.topic 
     value, timestamp, data_type, broker = message.value.split("/")
-    #broker = str(broker)
-    #print(f"SAVE has: {value}, {timestamp}, {data_type}, {broker}, {source}")
     p = Point(data_type).tag("Broker", broker).tag("Source", source).field("Value", int(value)).time(datetime.fromtimestamp(int(float(timestamp))), WritePrecision.MS)
-    #print(f"SAVE tries to write: {p}")
     write_api.write(bucket=db_bucket, record=p)
     print(f"SAVE has written: {p}")
 
@@ -82,24 +76,11 @@ if __name__ == "__main__":
         except TypeError as e:
             print(f"Error: {e}; because kafka is not ready, trying again...")
             sleep(2)
-    #for message in raw_save_consumer: #aqui es llança una excepcio
-    #for message in clean_save_consumer:
     
     raw_thread = threading.Thread(target=thread_func, args=(raw_save_consumer,), daemon=True)
     raw_thread.start()
     
     for message in clean_save_consumer:
-        #value='32/1700928523.6854231/presence/dakota_mqtt
-        #message = message.value.split("/")
-        #print(f"SAVE_RAW recieved message: {msg}")
-        #print(f"SAVE recieved message: {message}")
-        
-        #asyncio.ensure_future(save_to_influxdb(message=message))
         clean_client, clean_write_api = prepareDbClient()
         save_to_influxdb(message, clean_write_api)
         clean_client.close()
-
-    # for message in raw_save_consumer:
-    #     client, write_api = prepareDbClient()
-    #     save_to_influxdb(message)
-    #     client.close()
