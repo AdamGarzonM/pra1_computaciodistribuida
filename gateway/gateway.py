@@ -17,7 +17,6 @@ def on_message(client, userdata, msg):
     print(f"Gateway received payload: {data} from topic {msg.topic}")
     _, _, component = data.split("/")
     data = data + "/" + broker
-    print(component)
     if component == "lightbulb" or component == "heatpump":
         print(f"Gateway sent payload: {data} into topic clean")
         kafka_producer.send("clean", data)
