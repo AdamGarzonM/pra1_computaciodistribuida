@@ -57,3 +57,6 @@ if __name__ == "__main__":
                 publish.single(actuator_topic, payload, hostname = "host.docker.internal")
                 print(f"ACTUATE sent payload {payload} into topic {actuator_topic}")
                 continue
+        #Aquest else es per lightbulb i heatpump
+        else:
+            continue

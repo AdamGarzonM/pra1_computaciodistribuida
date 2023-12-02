@@ -36,6 +36,7 @@ services:
       - albert_mqtt
     restart: on-failure:10
     environment:
+      - PORT=1883
       - BROKER=albert_mqtt
 
   albert_heat:
@@ -47,6 +48,7 @@ services:
       - albert_mqtt
     restart: on-failure:10
     environment:
+      - PORT=1883
       - BROKER=albert_mqtt
   ############################################################
   albert_mqtt:
@@ -107,6 +109,7 @@ services:
       - dakota_mqtt
     restart: on-failure:10
     environment:
+      - PORT=1884
       - BROKER=dakota_mqtt
 
   dakota_heat:
@@ -118,6 +121,7 @@ services:
       - dakota_mqtt
     restart: on-failure:10
     environment:
+      - PORT=1884
       - BROKER=dakota_mqtt
   ############################################################
   dakota_mqtt:
@@ -176,6 +180,7 @@ services:
       - tifany_mqtt
     restart: on-failure:10
     environment:
+      - PORT=1885
       - BROKER=tifany_mqtt
 
   tifany_heat:
@@ -187,6 +192,7 @@ services:
       - tifany_mqtt
     restart: on-failure:10
     environment:
+      - PORT=1885
       - BROKER=tifany_mqtt
   ############################################################
   tifany_mqtt:
@@ -246,6 +252,7 @@ services:
     restart: on-failure:10
     environment:
       - BROKER=tommy_mqtt
+      - PORT=1886
 
   tommy_heat:
     build: 
@@ -256,6 +263,7 @@ services:
       - tommy_mqtt
     restart: on-failure:10
     environment:
+      - PORT=1886
       - BROKER=tommy_mqtt
   ############################################################
   tommy_mqtt:

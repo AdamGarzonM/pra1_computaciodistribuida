@@ -12,9 +12,18 @@ kafka_producer = KafkaProducer(
 )
 
 def on_message(client, userdata, msg):
-    data = msg.payload.decode() + "/" + broker
-    print(f"Gateway received payload: {data}")
-    kafka_producer.send("raw", data)
+    #data = msg.payload.decode() + "/" + broker
+    data = msg.payload.decode()
+    print(f"Gateway received payload: {data} from topic {msg.topic}")
+    _, _, component = data.split("/")
+    data = data + "/" + broker
+    print(component)
+    if component == "lightbulb" or component == "heatpump":
+        print(f"Gateway sent payload: {data} into topic clean")
+        kafka_producer.send("clean", data)
+    else: 
+        print(f"Gateway sent payload: {data} into topic raw")
+        kafka_producer.send("raw", data)
 
 if __name__ == "__main__":
     broker = environ.get("BROKER")
